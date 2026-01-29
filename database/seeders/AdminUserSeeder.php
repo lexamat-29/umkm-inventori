@@ -16,23 +16,27 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
         // Create admin user
-        User::create([
-            'name' => 'Admin UMKM',
-            'email' => 'admin@umkm.com',
-            'phone' => '628123456789',
-            'role' => 'admin',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@umkm.com'],
+            [
+                'name' => 'Admin UMKM',
+                'phone' => '628123456789',
+                'role' => 'admin',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Create staff user
-        User::create([
-            'name' => 'Staff UMKM',
-            'email' => 'staff@umkm.com',
-            'phone' => '628987654321',
-            'role' => 'staff',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'staff@umkm.com'],
+            [
+                'name' => 'Staff UMKM',
+                'phone' => '628987654321',
+                'role' => 'staff',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

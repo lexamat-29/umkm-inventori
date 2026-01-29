@@ -4,7 +4,7 @@
 ![Status](https://img.shields.io/badge/Status-Development-orange)
 ![Laravel](https://img.shields.io/badge/Laravel-9.x-FF2D20?logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?logo=php&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.0-38B2AC?logo=tailwind-css&logoColor=white)
 
 **Sistem Manajemen Inventori & Penjualan UMKM** adalah aplikasi web modern yang dirancang untuk mendigitalkan operasional warung atau toko kelontong. Mencakup manajemen stok, kasir (POS), dan pelaporan keuangan real-time.
 
@@ -13,8 +13,8 @@
 ## �️ Tech Stack
 
 - **Backend**: Laravel 9 Framework (PHP 8.2)
-- **Frontend**: Blade Templates, Bootstrap 5, Vanilla CSS/JS
-- **Database**: MySQL / MariaDB
+- **Frontend**: Blade Templates, Tailwind CSS, Alpine.js
+- **Database**: MySQL 8.0
 - **PDF & Excel**: `barryvdh/laravel-dompdf`, `maatwebsite/excel`
 - **Barcode**: `milon/barcode`
 

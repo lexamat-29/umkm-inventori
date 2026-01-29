@@ -22,8 +22,11 @@
                             <h3 class="text-lg font-semibold mb-4">Pilih Produk</h3>
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="product-grid">
                                 @foreach($products as $product)
-                                    <button onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->harga_jual }}, {{ $product->stock_quantity }})" 
-                                            class="product-item p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-left">
+                                    <button class="product-item p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-left"
+                                            data-id="{{ $product->id }}"
+                                            data-name="{{ e($product->name) }}"
+                                            data-price="{{ $product->harga_jual }}"
+                                            data-stock="{{ $product->stock_quantity }}">
                                         <h4 class="font-semibold text-sm mb-1">{{ $product->name }}</h4>
                                         <p class="text-xs text-gray-500 mb-2">{{ $product->sku }}</p>
                                         <p class="text-sm font-bold text-green-600">Rp {{ number_format($product->harga_jual, 0, ',', '.') }}</p>
@@ -83,6 +86,25 @@
     <script>
         let cart = [];
         let allProducts = @json($products);
+
+        // HTML escape function to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Product click event delegation (safe from XSS)
+        document.getElementById('product-grid').addEventListener('click', function(e) {
+            const btn = e.target.closest('.product-item');
+            if (btn) {
+                const id = parseInt(btn.dataset.id);
+                const name = btn.dataset.name;
+                const price = parseFloat(btn.dataset.price);
+                const stock = parseInt(btn.dataset.stock);
+                addToCart(id, name, price, stock);
+            }
+        });
 
         // Product search
         document.getElementById('product-search').addEventListener('input', function() {
@@ -159,10 +181,11 @@
                 const subtotal = item.unit_price * item.quantity;
                 total += subtotal;
                 
+                // Use escapeHtml to prevent XSS attacks
                 html += `
                     <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
                         <div class="flex-1">
-                            <p class="font-medium text-sm">${item.name}</p>
+                            <p class="font-medium text-sm">${escapeHtml(item.name)}</p>
                             <p class="text-xs text-gray-500">Rp ${formatNumber(item.unit_price)} x ${item.quantity}</p>
                         </div>
                         <div class="flex items-center gap-2">

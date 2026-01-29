@@ -25,9 +25,11 @@
                     <x-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.*')">
                         Inventori
                     </x-nav-link>
+                    @if(auth()->user()->isAdmin())
                     <x-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
                         Pembelian
                     </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')">
                         Laporan
                     </x-nav-link>
@@ -96,9 +98,11 @@
             <x-responsive-nav-link :href="route('inventory.index')" :active="request()->routeIs('inventory.*')">
                 Inventori
             </x-responsive-nav-link>
+            @if(auth()->user()->isAdmin())
             <x-responsive-nav-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
                 Pembelian
             </x-responsive-nav-link>
+            @endif
             <x-responsive-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')">
                 Laporan
             </x-responsive-nav-link>

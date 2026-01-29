@@ -25,7 +25,7 @@ class DashboardController extends Controller
             ->value('total') ?? 0;
         
         // Monthly Sales Chart (last 6 months)
-        $monthlySales = Sale::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, SUM(total_amount) as total')
+        $monthlySales = Sale::selectRaw("strftime('%Y-%m', created_at) as month, SUM(total_amount) as total")
             ->where('created_at', '>=', now()->subMonths(6))
             ->groupBy('month')
             ->orderBy('month')

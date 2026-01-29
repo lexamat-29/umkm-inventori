@@ -29,7 +29,7 @@ class ReportController extends Controller
         $totalTransactions = Sale::whereBetween('created_at', [$startDate, $endDate])->count();
 
         // Daily sales for chart
-        $dailySales = Sale::selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
+        $dailySales = Sale::selectRaw('date(created_at) as date, SUM(total_amount) as total')
             ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('date')
             ->orderBy('date')

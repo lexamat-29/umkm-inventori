@@ -77,8 +77,18 @@ Route::get('/debug-logs', function () {
 });
 
 Route::get('/debug-error', function () {
-    config(['app.debug' => true]);
-    return 'Debug mode temporarily enabled (for this request). Please go to the page that is crashing and refresh it. It should now show the real error message.';
+    try {
+        config(['app.debug' => true]);
+        // Force an error to see if it reports correctly
+        throw new \Exception('Debug mode is working! Now try visiting /pos or /dashboard.');
+    } catch (\Throwable $e) {
+        return response()->json([
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => explode("\n", $e->getTraceAsString())
+        ]);
+    }
 });
 
 Route::get('/pos-debug', function () {

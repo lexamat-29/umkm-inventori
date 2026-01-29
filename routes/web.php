@@ -44,6 +44,26 @@ Route::get('/run-seed', function () {
     }
 });
 
+Route::get('/reset-admin', function () {
+    try {
+        $admin1 = \App\Models\User::where('email', 'admin@umkm.com')->first();
+        if ($admin1) {
+            $admin1->password = \Illuminate\Support\Facades\Hash::make('password');
+            $admin1->save();
+        }
+
+        $admin2 = \App\Models\User::where('email', 'admin@umkm.local')->first();
+        if ($admin2) {
+            $admin2->password = \Illuminate\Support\Facades\Hash::make('admin123');
+            $admin2->save();
+        }
+
+        return 'Admin passwords have been explicitly reset. Try admin@umkm.com / password OR admin@umkm.local / admin123';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard - accessible by all authenticated users
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

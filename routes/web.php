@@ -20,6 +20,30 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/debug-db', function () {
+    try {
+        $dbPath = config('database.connections.sqlite.database');
+        return [
+            'database_path' => $dbPath,
+            'database_exists' => file_exists($dbPath),
+            'user_count' => \App\Models\User::count(),
+            'users' => \App\Models\User::all('email')->pluck('email'),
+            'env' => app()->environment(),
+        ];
+    } catch (\Exception $e) {
+        return ['error' => $e->getMessage()];
+    }
+});
+
+Route::get('/run-seed', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        return 'Database migrated and seeded successfully! Now try to login.';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard - accessible by all authenticated users
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
